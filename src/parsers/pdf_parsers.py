@@ -1,12 +1,11 @@
-from pdfplumber import open as pdf_open
+import pdfplumber
+from pathlib import Path
 
-def extract_text_from_pdf(pdf_path):
-    """Extracts text from a PDF file."""
+def parse_pdf(path: Path) -> tuple[str, list[str]]:
+    text_parts: list[str] = []
+    images: list[str] = []  # placeholder; can extract later
 
-    text = ""
-
-    with pdf_open(pdf_open) as pdf:
+    with pdfplumber.open(path) as pdf:
         for page in pdf.pages:
-            text += page.extract_text() + "\n"
-            
-    return text.strip()
+            text_parts.append(page.extract_text() or "")
+    return "\n".join(text_parts), images
